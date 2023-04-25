@@ -1,6 +1,5 @@
 #include "header.h"
 #include "board.h"
-#include "player.h"
 
 //I put it all into its own header to keep it away from the actual game play stuff making organization easier
 //if yall dont like it in its own feel free to move it over to the main header
@@ -16,48 +15,45 @@ public:
         Font font;
         if (!font.loadFromFile("ARIAL.ttf"))
         {
-            std::cout << "Failed to load image!" << std::endl;
+            cout << "Failed to load image!" << endl;
         }
 
-        ////////////////////////////////////BUTTONS////////////////////////////////
+        //buttons--split by button and text overlay
 
         //play button
-        RectangleShape play_button(sf::Vector2f(300, 100));
+        RectangleShape play_button(Vector2f(300, 100));
         play_button.setPosition(450, 150);
-        play_button.setFillColor(sf::Color::Transparent);
+        play_button.setFillColor(Color::Transparent);
         play_button.setOutlineThickness(2);
-        play_button.setOutlineColor(sf::Color::White);
+        play_button.setOutlineColor(Color::White);
 
         Text playText("Start Game", font, 50);
         playText.setPosition(450, 150);
-        playText.setFillColor(sf::Color::White);
+        playText.setFillColor(Color::White);
         
 
         //tutorial\rules\info button button
-        RectangleShape info_button(sf::Vector2f(300, 100));
+        RectangleShape info_button(Vector2f(300, 100));
         info_button.setPosition(450, 350);
-        info_button.setFillColor(sf::Color::Transparent);
+        info_button.setFillColor(Color::Transparent);
         info_button.setOutlineThickness(2);
-        info_button.setOutlineColor(sf::Color::White);
+        info_button.setOutlineColor(Color::White);
 
         Text infoText("Info", font, 50);
         infoText.setPosition(450, 350);
-        infoText.setFillColor(sf::Color::White);
+        infoText.setFillColor(Color::White);
 
 
         //exit game button
-        RectangleShape exit_button(sf::Vector2f(300, 100));
+        RectangleShape exit_button(Vector2f(300, 100));
         exit_button.setPosition(450, 550);
-        exit_button.setFillColor(sf::Color::Transparent);
+        exit_button.setFillColor(Color::Transparent);
         exit_button.setOutlineThickness(2);
-        exit_button.setOutlineColor(sf::Color::White);
+        exit_button.setOutlineColor(Color::White);
 
         Text exitText("Exit Game", font, 50);
         exitText.setPosition(450, 550);
-        exitText.setFillColor(sf::Color::White);
-
-
-        ////////////////////////////////MENU VISUALS//////////////////////////////////
+        exitText.setFillColor(Color::White);
 
 
         //makes menu background --  replace test.png with final background whenever ready
@@ -70,9 +66,6 @@ public:
         Sprite background(wallpaper);
         background.setPosition(0, 0);
 
-        ////////////////////////////////////RUN MENU//////////////////////////////////
-
-
         while (window.isOpen())
         {
             // Process events
@@ -80,13 +73,15 @@ public:
             while (window.pollEvent(event))
             {
                 // Check for user input
-                if (event.type == sf::Event::MouseButtonPressed)
+                if (event.type == Event::MouseButtonPressed)
                 {
                     // Check if the mouse is over the start button
                     if (play_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
+                        cout << "play" << "\n";
                         TicTacBoard game;
-                        game.runGame();
+                        game.runGame(window);
+
                     }
 
                     // Check if the mouse is over the info
@@ -107,7 +102,7 @@ public:
                     window.close();
                 }
             }
-            window.clear(Color::Black);
+            window.clear(sf::Color::Black);
             window.draw(background);
             window.draw(play_button);
             window.draw(info_button);
@@ -119,7 +114,7 @@ public:
         }
     }
 
-    void PlayMenu()//choose between single player w/ ai, two player, multiplayer(if time allows)
+    void PlayMenu()//choose between single player w/ ai or multiplayer(if time allows)
     {
 
     }
