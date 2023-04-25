@@ -17,6 +17,7 @@
 int main()
 {
     menu Menu;
+
     RenderWindow window(VideoMode(1200, 800), "Tic Tac Toe"); //makes window
     
     Menu.MainMenu(window);
