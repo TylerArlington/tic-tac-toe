@@ -1,5 +1,6 @@
 #include "header.h"
-
+#include "board.h"
+#include "player.h"
 
 //I put it all into its own header to keep it away from the actual game play stuff making organization easier
 //if yall dont like it in its own feel free to move it over to the main header
@@ -18,7 +19,7 @@ public:
             std::cout << "Failed to load image!" << std::endl;
         }
 
-        //buttons--split by button and text overlay
+        ////////////////////////////////////BUTTONS////////////////////////////////
 
         //play button
         RectangleShape play_button(sf::Vector2f(300, 100));
@@ -56,6 +57,9 @@ public:
         exitText.setFillColor(sf::Color::White);
 
 
+        ////////////////////////////////MENU VISUALS//////////////////////////////////
+
+
         //makes menu background --  replace test.png with final background whenever ready
         Texture wallpaper;
         if (!wallpaper.loadFromFile("menu1.1.png"))
@@ -65,6 +69,9 @@ public:
 
         Sprite background(wallpaper);
         background.setPosition(0, 0);
+
+        ////////////////////////////////////RUN MENU//////////////////////////////////
+
 
         while (window.isOpen())
         {
@@ -78,7 +85,8 @@ public:
                     // Check if the mouse is over the start button
                     if (play_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
-                        // play game
+                        TicTacBoard game;
+                        game.runGame();
                     }
 
                     // Check if the mouse is over the info
@@ -99,7 +107,7 @@ public:
                     window.close();
                 }
             }
-            window.clear(sf::Color::Black);
+            window.clear(Color::Black);
             window.draw(background);
             window.draw(play_button);
             window.draw(info_button);
