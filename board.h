@@ -11,10 +11,10 @@ class Board
 {
 public:
 	//tests if the move is legal, if legal procede with move
-	virtual bool isLegal(int row, int col) = 0;
+	//virtual bool isLegal(int row, int col) = 0;
 
 	//tests if game is over
-	virtual void isGameOver() = 0;
+	virtual bool isGameOver() = 0;
 
 };
 
@@ -28,9 +28,9 @@ private:
 
 public:
 
-	bool isLegal(int row, int col)
+	/*bool isLegal(int row, int col)
 	{
-		if (board[row][col] == empty)
+		if (board[row][col] == 0)
 		{
 			return true;
 		}
@@ -38,7 +38,7 @@ public:
 		{
 			return false;
 		}
-	}
+	}*/
 
 	bool isGameOver()
 	{
@@ -79,7 +79,7 @@ public:
 		{
 			return true;
 		}
-		
+
 		////////////////////Nothing////////////////////
 		else
 		{
@@ -88,40 +88,174 @@ public:
 
 	}
 
-	void runGame()
+	void runGame(RenderWindow& window)
 	{
-		window.clear(Color::Black);
 
 		////////////////////////////////////BUTTONS////////////////////////////////
 
 		/////////top row/////////
-		RectangleShape play_button(sf::Vector2f(300, 100));
-		play_button.setPosition(450, 150);
-		//.setFillColor(sf::Color::Transparent);
+		RectangleShape topleft(Vector2f(150, 150));
+		topleft.setPosition(255, 120);
+		topleft.setFillColor(Color::Transparent);
 
+		RectangleShape topmid(Vector2f(170, 150));
+		topmid.setPosition(420, 120);
+		topmid.setFillColor(Color::Transparent);
 
+		RectangleShape topright(Vector2f(150, 150));
+		topright.setPosition(600, 120);
+		topright.setFillColor(Color::Transparent);
 
 
 		//////////middle row//////
-		//RectangleShape info_button(sf::Vector2f(300, 100));
-		//info_button.setPosition(450, 350);
-		//info_button.setFillColor(sf::Color::Transparent);
+		RectangleShape midleft(Vector2f(155, 180));
+		midleft.setPosition(255, 280);
+		midleft.setFillColor(Color::Transparent);
 
+		RectangleShape midmid(Vector2f(175, 180));
+		midmid.setPosition(420, 280);
+		midmid.setFillColor(Color::Transparent);
 
-		//Text infoText("Info", font, 50);
-		//infoText.setPosition(450, 350);
-		//infoText.setFillColor(sf::Color::White);
+		RectangleShape midright(Vector2f(155, 180));
+		midright.setPosition(600, 280);
+		midright.setFillColor(Color::Transparent);
 
 
 		///////////bottom row/////////
-		//RectangleShape exit_button(sf::Vector2f(300, 100));
-		//exit_button.setPosition(450, 550);
-		//exit_button.setFillColor(sf::Color::Transparent);
+		RectangleShape botleft(Vector2f(155, 150));
+		botleft.setPosition(255, 475);
+		botleft.setFillColor(Color::Transparent);
+
+		RectangleShape botmid(Vector2f(175, 150));
+		botmid.setPosition(420, 475);
+		botmid.setFillColor(Color::Transparent);
+
+		RectangleShape botright(Vector2f(155, 150));
+		botright.setPosition(607, 472);
+		botright.setFillColor(Color::Transparent);
 
 
-		//Text exitText("Exit Game", font, 50);
-		//exitText.setPosition(450, 550);
-		//exitText.setFillColor(sf::Color::White);
+
+		Texture gameBackground;
+		if (!gameBackground.loadFromFile("game1.1.png"))
+		{
+			std::cout << "Failed to load image!" << std::endl;
+		}
+
+		Sprite background(gameBackground);
+		background.setPosition(0, 0);
+
+
+		Texture X;
+		if (!X.loadFromFile("X.png"))
+		{
+			std::cout << "Failed to load image!" << std::endl;
+		}
+
+		Sprite PlayerX(X);
+
+		while (window.isOpen())
+		{
+			// Process events
+			Event event;
+			while (window.pollEvent(event))
+			{
+				// Check for user input
+				if (event.type == Event::MouseButtonPressed)
+				{
+
+					///////////////////////////////////////top////////////////////////////////////////
+					// Check if the mouse is over the top left
+					if (topleft.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+					{
+						cout << "click registered top left" << "\n";
+
+					}
+
+					// Check if the mouse is over the top middle
+					if (topmid.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+					{
+						cout << "click registered top mid" << "\n";
+
+					}
+
+					// Check if the mouse is over the top right
+					if (topright.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+					{
+						cout << "click registered top right" << "\n";
+
+					}
+
+					///////////////////////////////////////mid////////////////////////////////////////////
+
+					// Check if the mouse is over the start button
+					if (midleft.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+					{
+						cout << "click registered mid left" << "\n";
+
+					}
+
+					// Check if the mouse is over the start button
+					if (midmid.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+					{
+						cout << "click registered mid middle" << "\n";
+
+					}
+
+					// Check if the mouse is over the start button
+					if (midright.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+					{
+						cout << "click registered mid right" << "\n";
+
+					}
+
+					////////////////////////////////////////bot///////////////////////////////////////////
+
+
+					if (botleft.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+					{
+						cout << "click registered bottom left" << "\n";
+
+					}
+
+					// Check if the mouse is over the start button
+					if (botmid.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+					{
+						cout << "click registered bot middle" << "\n";
+
+					}
+
+					// Check if the mouse is over the start button
+					if (botright.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+					{
+						cout << "click registered bottom right" << "\n";
+
+					}
+
+				}
+				else if (event.type == Event::Closed)
+				{
+					// Close the window
+					window.close();
+				}
+			}
+			window.clear(Color::Black);
+
+			window.draw(background);
+
+			window.draw(topleft);
+			window.draw(topmid);
+			window.draw(topright);
+
+			window.draw(midleft);
+			window.draw(midmid);
+			window.draw(midright);
+
+			window.draw(botleft);
+			window.draw(botmid);
+			window.draw(botright);
+
+			window.display();
+		}
 	}
-
 };
