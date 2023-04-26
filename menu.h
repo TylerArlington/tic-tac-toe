@@ -116,7 +116,73 @@ public:
 
     void PlayMenu()//choose between single player w/ ai or multiplayer(if time allows)
     {
+		// Buttons for single player and multiplayer modes
+		Font font; // font for text
+        
+		if (!font.loadFromFile("ARIAL.ttf"))
+		{
+			cout << "Failed to load image!" << endl;
+		}
 
+        // Single Player Button
+		RectangleShape single_button(Vector2f(300, 100));
+		single_button.setPosition(450, 150);
+		single_button.setFillColor(Color::Transparent);
+		single_button.setOutlineThickness(2);
+		single_button.setOutlineColor(Color::White);
+        
+		Text singlePlayerText("Sinlge Player", font, 50);
+		singlePlayerText.setPosition(450, 150);
+		singlePlayerText.setFillColor(Color::White);
+
+		// Multiplayer Button
+		RectangleShape multi_button(Vector2f(300, 100));
+		multi_button.setPosition(450, 350);
+		multi_button.setFillColor(Color::Transparent);
+		multi_button.setOutlineThickness(2);
+		multi_button.setOutlineColor(Color::White);
+        
+		Text multiPlayerText("Multiplayer", font, 50);
+		multiPlayerText.setPosition(450, 350);
+        multiPlayerText.setFillColor(Color::White);
+        
+        while (window.isOpen()) // Checks for user input until window is closed
+        {
+            // Process events
+            Event event;
+            while (window.pollEvent(event))
+            {
+                // Check for user input
+                if (event.type == Event::MouseButtonPressed)
+                {
+                    // if mouse is over the single player button
+                    if (singlePlayerButton.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    {
+                        cout << "Singleplayer" << "\n";
+						// START SINGLE PLAYER GAME - INSERT METHOD HERE
+                    }
+
+                    // Check if mouse is over the multiplayer button
+                    if (multiPlayerButton.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    {
+                        cout << "Multiplayer" << "\n";
+                        // START MULTIPLAYER GAME (NOT IMPLEMENTED)
+                    }
+                }
+                else if (event.type == Event::Closed)
+                {
+                    // Close the window
+                    window.close();
+                }
+            }
+
+            window.clear(sf::Color::Black);
+            window.draw(singlePlayerButton);
+            window.draw(multiPlayerButton);
+            window.draw(singlePlayerText);
+            window.draw(multiPlayerText);
+            window.display();
+        }
     }
 
 };
