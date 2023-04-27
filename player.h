@@ -7,7 +7,7 @@ protected:
     // Add any protected member variables and functions here
 
 public:
-    virtual void makeMove() = 0;  // Define an abstract function to make a move
+    virtual void makeMove(int(&board)[3][3], int x, int y, int player, RenderWindow& window, Sprite& sprite) = 0;  // Define an abstract function to make a move
 };
 
 class humanPlayer : public player {
@@ -15,8 +15,17 @@ protected:
     // Add any protected member variables and functions here
 
 public:
-    void makeMove() override {
-        // Add code to prompt the human player to make a move and handle the input
+    void makeMove(int(&board)[3][3], int x, int y, int player, RenderWindow& window, Sprite& sprite) override
+    {
+        board[x][y] = player;
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                std::cout << board[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }
+      
     }
 };
 
@@ -25,7 +34,55 @@ protected:
     // Add any protected member variables and functions here
 
 public:
-    void makeMove() override {
-        // Add code to make a move for the computer player
+    void makeMove(int(&board)[3][3], int x, int y, int player, RenderWindow& window, Sprite& sprite)override
+    {
+        srand(time(0));
+
+        // Generate a random row and column
+        x = rand() % 3;
+        y = rand() % 3;
+
+        // Place the number on the grid
+        board[x][y] = player;
+
+        int xcoord = 0;
+        int ycoord = 0;
+
+        if (x == 0)
+        {
+            xcoord = 255;
+        }
+        else if (x == 1)
+        {
+            xcoord = 420;
+        }
+        else if (x == 2)
+        {
+            xcoord = 600;
+        }
+
+        if (y == 0)
+        {
+            ycoord = 120;
+        }
+        else if (y == 1)
+        {
+            ycoord = 280;
+        }
+        else if (y == 2)
+        {
+            ycoord = 475;
+        }
+
+
+        sprite.setPosition(xcoord, ycoord);
+
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                std::cout << board[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }
     }
 };
