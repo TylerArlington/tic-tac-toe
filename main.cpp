@@ -8,7 +8,9 @@
 /*Nick Furuya                                                           */
 /*Tyler Arlington                                                       */
 /*                                                                      */
-/*Notes:                                                                */
+/*Notes:
+    Github Repo Link: https://github.com/TylerArlington/tic-tac-toe
+    Incase zip file is too large                                                                */
 /*----------------------------------------------------------------------*/
 
 #include "header.h"
