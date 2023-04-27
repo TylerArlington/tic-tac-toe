@@ -1,8 +1,8 @@
-
 #pragma once
 
 #include "header.h"
 #include "player.h"
+//#include "menu.h"
 
 
 class Board
@@ -12,7 +12,7 @@ public:
 
 
 	//tests if game is over
-	virtual bool isGameOver() = 0;
+	virtual int isGameOver() = 0;
 
 };
 
@@ -20,60 +20,61 @@ public:
 class TicTacBoard : public Board
 {
 public:
-	//true = availible -- false = full
-	int board[3][3] = { {0,0,0} , {0,0,0} , {0,0,0} };
+	static const int EMPTY = 0;
+	static const int Player_X = 1; // 1st player
+	static const int Player_O = 2; // 2nd player
+	int board[3][3] = { {EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY} }; // 3x3 board
 
-
-	bool isGameOver()
+	int isGameOver()
 	{
-		////////////////check vertical///////////////
-		if (board[0][0] == board[0][1] && board[0][2] != 0)
+		// Check for horizontal win
+		for (int row = 0; row < 3; row++) // Loop through rows of board to check for win
 		{
-			return true;
-		}
-		else if (board[1][0] == board[1][1] && board[1][2] != 0)
-		{
-			return true;
-		}
-		else if (board[2][0] == board[2][1] && board[2][2] != 0)
-		{
-			return true;
+			if (board[row][0] == board[row][1] && board[row][1] == board[row][2] && board[row][0] != EMPTY)
+			{
+				return row;
+			}
 		}
 
-		////////////////check horizontal///////////////
-		else if (board[0][0] == board[1][0] && board[2][0] != 0)
+		// Check for vertical win
+		for (int col = 0; col < 3; ++col) // Loop through columns of board to check for win
 		{
-			return true;
-		}
-		else if (board[0][1] == board[1][1] && board[2][1] != 0)
-		{
-			return true;
-		}
-		else if (board[0][2] == board[1][1] && board[2][2] != 0)
-		{
-			return true;
+			if (board[0][col] == board[1][col] && board[1][col] == board[2][col] && board[0][col] != EMPTY)
+			{
+				return col;
+			}
 		}
 
-		////////////////check horizontal///////////////
-		else if (board[0][0] == board[1][0] && board[1][0] == board[2][0] && board[2][0] != 0)
+		// Check for diagonal win
+		if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != EMPTY)
 		{
-			return true;
+			return board[1][1];
 		}
-		else if (board[0][1] == board[1][1] && board[1][1] == board[2][1] && board[2][1] != 0)
+		else if (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != EMPTY)
 		{
-			return true;
-		}
-		else if (board[0][2] == board[1][2] && board[1][2] == board[2][2] && board[2][2] != 0)
-		{
-			return true;
+			return board[1][1];
 		}
 
-		////////////////////Nothing////////////////////
-		else
+		// Check for tie
+		bool tie = true;
+		for (int row = 0; row < 3; ++row) // Loop through rows of board to check for tie
 		{
-			return false;
+			for (int col = 0; col < 3; ++col) // Loop through columns of board to check for tie
+			{
+				if (board[row][col] == EMPTY)
+				{
+					tie = false;
+				}
+			}
 		}
+		if (tie)
+		{
+			return 3;
 
+
+			// No winner or tie
+			return 0;
+		}
 	}
 
 	void runGame(RenderWindow& window)
@@ -202,11 +203,11 @@ public:
 			while (window.pollEvent(event))
 			{
 
-				while (isGameOver() == false)
+			
+				// Check for user input
+				if (event.type == Event::MouseButtonPressed)
 				{
-
-					// Check for user input
-					if (event.type == Event::MouseButtonPressed)
+					if (isGameOver() == 0)
 					{
 
 						///////////////////////////////////////top////////////////////////////////////////
@@ -359,15 +360,193 @@ public:
 
 							player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO9, Eventx, Eventy);
 						}
-
 					}
 
-					else if (event.type == Event::Closed)
+					if (isGameOver() != 0)
 					{
-						// Close the window
-						window.close();
+
+						//menu returnMenu;
+
+						int winner = isGameOver();
+
+						cout << "the winner is player " << winner << "!\n";
+
+						if (winner = 1)
+						{
+							Font font; // font for text
+
+							if (!font.loadFromFile("ARIAL.ttf"))
+							{
+								cout << "Failed to load font!" << endl;
+							}
+							Text winnerText("You Win!!", font, 70);
+							winnerText.setPosition(225, 150);
+							winnerText.setFillColor(Color::White);
+
+
+							// return Button
+							RectangleShape return_button(Vector2f(300, 100));
+							return_button.setPosition(450, 550);
+							return_button.setFillColor(Color::Transparent);
+							return_button.setOutlineThickness(2);
+							return_button.setOutlineColor(Color::White);
+
+							Text returnText("close", font, 50);
+							returnText.setPosition(450, 550);
+							returnText.setFillColor(Color::White);
+
+							while (window.isOpen()) // Checks for user input until window is closed
+							{
+								// Process events
+								Event event;
+								while (window.pollEvent(event))
+								{
+									// Check for user input
+									if (event.type == Event::MouseButtonPressed)
+									{
+										// if mouse is over the single player button
+										if (return_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+										{
+											cout << "return" << "\n";
+											window.close();
+										}
+									}
+									else if (event.type == Event::Closed)
+									{
+										// Close the window
+										window.close();
+									}
+								}
+
+								window.clear(Color::Black);
+								window.draw(winnerText);
+								window.draw(return_button);
+								window.draw(returnText);
+								window.display();
+							}
+						}
+
+						if (winner = 2)
+						{
+							Font font; // font for text
+
+							if (!font.loadFromFile("ARIAL.ttf"))
+							{
+								cout << "Failed to load font!" << endl;
+							}
+							Text loserText("You Lose, better luck next time", font, 70);
+							loserText.setPosition(225, 150);
+							loserText.setFillColor(Color::White);
+
+
+							// return Button
+							RectangleShape return_button(Vector2f(300, 100));
+							return_button.setPosition(450, 550);
+							return_button.setFillColor(Color::Transparent);
+							return_button.setOutlineThickness(2);
+							return_button.setOutlineColor(Color::White);
+
+							Text returnText("close", font, 50);
+							returnText.setPosition(450, 550);
+							returnText.setFillColor(Color::White);
+
+							while (window.isOpen()) // Checks for user input until window is closed
+							{
+								// Process events
+								Event event;
+								while (window.pollEvent(event))
+								{
+									// Check for user input
+									if (event.type == Event::MouseButtonPressed)
+									{
+										// if mouse is over the single player button
+										if (return_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+										{
+											cout << "return" << "\n";
+											window.close();
+										}
+									}
+									else if (event.type == Event::Closed)
+									{
+										// Close the window
+										window.close();
+									}
+								}
+
+								window.clear(Color::Black);
+								window.draw(loserText);
+								window.draw(return_button);
+								window.draw(returnText);
+								window.display();
+							}
+						}
+
+						if (winner = 3)
+						{
+							Font font; // font for text
+
+							if (!font.loadFromFile("ARIAL.ttf"))
+							{
+								cout << "Failed to load font!" << endl;
+							}
+							Text winnerText("Tie!, better luck next time", font, 70);
+							winnerText.setPosition(225, 150);
+							winnerText.setFillColor(Color::White);
+
+
+							// return Button
+							RectangleShape return_button(Vector2f(300, 100));
+							return_button.setPosition(450, 550);
+							return_button.setFillColor(Color::Transparent);
+							return_button.setOutlineThickness(2);
+							return_button.setOutlineColor(Color::White);
+
+							Text returnText("close", font, 50);
+							returnText.setPosition(450, 550);
+							returnText.setFillColor(Color::White);
+
+							while (window.isOpen()) // Checks for user input until window is closed
+							{
+								// Process events
+								Event event;
+								while (window.pollEvent(event))
+								{
+									// Check for user input
+									if (event.type == Event::MouseButtonPressed)
+									{
+										// if mouse is over the single player button
+										if (return_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+										{
+											cout << "return" << "\n";
+											window.close();
+										}
+									}
+									else if (event.type == Event::Closed)
+									{
+										// Close the window
+										window.close();
+									}
+								}
+
+								window.clear(Color::Black);
+								window.draw(winnerText);
+								window.draw(return_button);
+								window.draw(returnText);
+								window.display();
+							}
+						}
+						
 					}
+
 				}
+
+
+				else if (event.type == Event::Closed)
+				{
+					// Close the window
+					window.close();
+				}
+			
 			}
 			window.clear(Color::Black);
 
@@ -409,3 +588,4 @@ public:
 		}
 	}
 };
+
