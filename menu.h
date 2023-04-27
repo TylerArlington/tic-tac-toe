@@ -1,4 +1,3 @@
-
 #include "header.h"
 #include "board.h"
 
@@ -117,7 +116,7 @@ public:
     void PlayMenu(RenderWindow& window)//choose between single player w/ ai or multiplayer(if time allows)
     {
         TicTacBoard game;
-        
+
 
         // Buttons for single player and multiplayer modes
         Font font; // font for text
