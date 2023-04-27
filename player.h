@@ -1,4 +1,3 @@
-
 #include "header.h"
 
 
@@ -7,7 +6,7 @@ protected:
     // Add any protected member variables and functions here
 
 public:
-    virtual void makeMove(int(&board)[3][3], int x, int y, int player, RenderWindow& window, Sprite& sprite) = 0;  // Define an abstract function to make a move
+    virtual void makeMove(int(&board)[3][3], int x, int y, int player, RenderWindow& window, Sprite& sprite, int mouseX, int mouseY) = 0;  // Define an abstract function to make a move
 };
 
 class humanPlayer : public player {
@@ -15,17 +14,18 @@ protected:
     // Add any protected member variables and functions here
 
 public:
-    void makeMove(int(&board)[3][3], int x, int y, int player, RenderWindow& window, Sprite& sprite) override
+    void makeMove(int(&board)[3][3], int x, int y, int player, RenderWindow& window, Sprite& sprite, int mouseX, int mouseY) override
     {
         // Check if move is valid
-        
-        if (board[x][y] != 0 || x < 0 || x >= 3 || y < 0 || y >= 3) 
+
+        if (board[x][y] != 0 || x < 0 || x >= 3 || y < 0 || y >= 3)
         {
             // Invalid move, do nothing
             return;
         }
 
         board[x][y] = player;
+        sprite.setPosition(mouseX - 75, mouseY - 75);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -33,7 +33,7 @@ public:
             }
             std::cout << std::endl;
         }
-      
+
     }
 };
 
@@ -42,7 +42,7 @@ protected:
     // Add any protected member variables and functions here
 
 public:
-    void makeMove(int(&board)[3][3], int x, int y, int player, RenderWindow& window, Sprite& sprite)override
+    void makeMove(int(&board)[3][3], int x, int y, int player, RenderWindow& window, Sprite& sprite, int mouseX, int mouseY) override
     {
         srand(time(0));
 
@@ -56,7 +56,7 @@ public:
 
 
         // Place the number on the grid
-        board[x][y] = player;
+        board[y][x] = player;
 
         int xcoord = 0;
         int ycoord = 0;
@@ -98,4 +98,5 @@ public:
             std::cout << std::endl;
         }
     }
+};
 };
