@@ -1,4 +1,5 @@
 #include "header.h"
+#include "header.h"
 #include "board.h"
 
 //I put it all into its own header to keep it away from the actual game play stuff making organization easier
@@ -9,6 +10,79 @@
 
 class menu {
 public:
+    void PlayMenu(RenderWindow& window)//choose between single player w/ ai or multiplayer(if time allows)
+ {
+     TicTacBoard game;
+
+
+     // Buttons for single player and multiplayer modes
+     Font font; // font for text
+
+     if (!font.loadFromFile("ARIAL.ttf"))
+     {
+         cout << "Failed to load font!" << endl;
+     }
+
+     // Single Player Button
+     RectangleShape single_button(Vector2f(300, 100));
+     single_button.setPosition(450, 150);
+     single_button.setFillColor(Color::Transparent);
+     single_button.setOutlineThickness(2);
+     single_button.setOutlineColor(Color::White);
+
+     Text singlePlayerText("Single Player", font, 50);
+     singlePlayerText.setPosition(450, 150);
+     singlePlayerText.setFillColor(Color::White);
+
+     // Multiplayer Button
+     RectangleShape multi_button(Vector2f(300, 100));
+     multi_button.setPosition(450, 350);
+     multi_button.setFillColor(Color::Transparent);
+     multi_button.setOutlineThickness(2);
+     multi_button.setOutlineColor(Color::White);
+
+     Text multiPlayerText("Multiplayer", font, 50);
+     multiPlayerText.setPosition(450, 350);
+     multiPlayerText.setFillColor(Color::White);
+
+     while (window.isOpen()) // Checks for user input until window is closed
+     {
+         // Process events
+         Event event;
+         while (window.pollEvent(event))
+         {
+             // Check for user input
+             if (event.type == Event::MouseButtonPressed)
+             {
+                 // if mouse is over the single player button
+                 if (single_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                 {
+                     cout << "Singleplayer" << "\n";
+                     game.runGame(window);
+                 }
+
+                 // Check if mouse is over the multiplayer button
+                 if (multi_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                 {
+                     cout << "Multiplayer--not yet implemented" << "\n";
+                     // START MULTIPLAYER GAME (NOT IMPLEMENTED)
+                 }
+             }
+             else if (event.type == Event::Closed)
+             {
+                 // Close the window
+                 window.close();
+             }
+         }
+
+         window.clear(Color::Black);
+         window.draw(single_button);
+         window.draw(multi_button);
+         window.draw(singlePlayerText);
+         window.draw(multiPlayerText);
+         window.display();
+     }
+ };
     //load main menu
     void MainMenu(RenderWindow& window)//make main menu
     {
@@ -79,14 +153,13 @@ public:
                     if (play_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
                         cout << "play" << "\n";
-                        TicTacBoard game;
                         PlayMenu(window);
                     }
 
                     // Check if the mouse is over the info
                     if (info_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
-                        //show info
+                        infoMenu(window);
                     }
 
                     // Check if the mouse is over the exit
@@ -113,40 +186,32 @@ public:
         }
     }
 
-    void PlayMenu(RenderWindow& window)//choose between single player w/ ai or multiplayer(if time allows)
+    void infoMenu(RenderWindow& window)
     {
         TicTacBoard game;
 
 
-        // Buttons for single player and multiplayer modes
         Font font; // font for text
 
         if (!font.loadFromFile("ARIAL.ttf"))
         {
             cout << "Failed to load font!" << endl;
         }
+        Text instructionText("The rules of tic tac toe are quite simple\nThe aim of the Game is to get 3 in a row before your opponent does\n One player will be represented be X and the other O\nTo play simply click where you want to place your X\nEnjoy!", font, 30);
+        instructionText.setPosition(225, 150);
+        instructionText.setFillColor(Color::White);
 
-        // Single Player Button
-        RectangleShape single_button(Vector2f(300, 100));
-        single_button.setPosition(450, 150);
-        single_button.setFillColor(Color::Transparent);
-        single_button.setOutlineThickness(2);
-        single_button.setOutlineColor(Color::White);
 
-        Text singlePlayerText("Single Player", font, 50);
-        singlePlayerText.setPosition(450, 150);
-        singlePlayerText.setFillColor(Color::White);
+        // return Button
+        RectangleShape return_button(Vector2f(300, 100));
+        return_button.setPosition(450, 550);
+        return_button.setFillColor(Color::Transparent);
+        return_button.setOutlineThickness(2);
+        return_button.setOutlineColor(Color::White);
 
-        // Multiplayer Button
-        RectangleShape multi_button(Vector2f(300, 100));
-        multi_button.setPosition(450, 350);
-        multi_button.setFillColor(Color::Transparent);
-        multi_button.setOutlineThickness(2);
-        multi_button.setOutlineColor(Color::White);
-
-        Text multiPlayerText("Multiplayer", font, 50);
-        multiPlayerText.setPosition(450, 350);
-        multiPlayerText.setFillColor(Color::White);
+        Text returnText("return", font, 50);
+        returnText.setPosition(450, 550);
+        returnText.setFillColor(Color::White);
 
         while (window.isOpen()) // Checks for user input until window is closed
         {
@@ -158,17 +223,10 @@ public:
                 if (event.type == Event::MouseButtonPressed)
                 {
                     // if mouse is over the single player button
-                    if (single_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    if (return_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
-                        cout << "Singleplayer" << "\n";
-                        game.runGame(window);
-                    }
-
-                    // Check if mouse is over the multiplayer button
-                    if (multi_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
-                    {
-                        cout << "Multiplayer--not yet implemented" << "\n";
-                        // START MULTIPLAYER GAME (NOT IMPLEMENTED)
+                        cout << "return" << "\n";
+                        MainMenu(window);
                     }
                 }
                 else if (event.type == Event::Closed)
@@ -179,12 +237,14 @@ public:
             }
 
             window.clear(Color::Black);
-            window.draw(single_button);
-            window.draw(multi_button);
-            window.draw(singlePlayerText);
-            window.draw(multiPlayerText);
+            window.draw(instructionText);
+            window.draw(return_button);
+            window.draw(returnText);
             window.display();
         }
     }
 
-};
+ };
+
+
+ 
