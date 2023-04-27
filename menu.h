@@ -1,3 +1,4 @@
+
 #include "header.h"
 #include "board.h"
 
@@ -30,7 +31,7 @@ public:
         Text playText("Start Game", font, 50);
         playText.setPosition(450, 150);
         playText.setFillColor(Color::White);
-        
+
 
         //tutorial\rules\info button button
         RectangleShape info_button(Vector2f(300, 100));
@@ -80,8 +81,7 @@ public:
                     {
                         cout << "play" << "\n";
                         TicTacBoard game;
-                        game.runGame(window);
-
+                        PlayMenu(window);
                     }
 
                     // Check if the mouse is over the info
@@ -102,7 +102,7 @@ public:
                     window.close();
                 }
             }
-            window.clear(sf::Color::Black);
+            window.clear(Color::Black);
             window.draw(background);
             window.draw(play_button);
             window.draw(info_button);
@@ -114,38 +114,41 @@ public:
         }
     }
 
-    void PlayMenu()//choose between single player w/ ai or multiplayer(if time allows)
+    void PlayMenu(RenderWindow& window)//choose between single player w/ ai or multiplayer(if time allows)
     {
-		// Buttons for single player and multiplayer modes
-		Font font; // font for text
+        TicTacBoard game;
         
-		if (!font.loadFromFile("ARIAL.ttf"))
-		{
-			cout << "Failed to load image!" << endl;
-		}
+
+        // Buttons for single player and multiplayer modes
+        Font font; // font for text
+
+        if (!font.loadFromFile("ARIAL.ttf"))
+        {
+            cout << "Failed to load image!" << endl;
+        }
 
         // Single Player Button
-		RectangleShape single_button(Vector2f(300, 100));
-		single_button.setPosition(450, 150);
-		single_button.setFillColor(Color::Transparent);
-		single_button.setOutlineThickness(2);
-		single_button.setOutlineColor(Color::White);
-        
-		Text singlePlayerText("Sinlge Player", font, 50);
-		singlePlayerText.setPosition(450, 150);
-		singlePlayerText.setFillColor(Color::White);
+        RectangleShape single_button(Vector2f(300, 100));
+        single_button.setPosition(450, 150);
+        single_button.setFillColor(Color::Transparent);
+        single_button.setOutlineThickness(2);
+        single_button.setOutlineColor(Color::White);
 
-		// Multiplayer Button
-		RectangleShape multi_button(Vector2f(300, 100));
-		multi_button.setPosition(450, 350);
-		multi_button.setFillColor(Color::Transparent);
-		multi_button.setOutlineThickness(2);
-		multi_button.setOutlineColor(Color::White);
-        
-		Text multiPlayerText("Multiplayer", font, 50);
-		multiPlayerText.setPosition(450, 350);
+        Text singlePlayerText("Single Player", font, 50);
+        singlePlayerText.setPosition(450, 150);
+        singlePlayerText.setFillColor(Color::White);
+
+        // Multiplayer Button
+        RectangleShape multi_button(Vector2f(300, 100));
+        multi_button.setPosition(450, 350);
+        multi_button.setFillColor(Color::Transparent);
+        multi_button.setOutlineThickness(2);
+        multi_button.setOutlineColor(Color::White);
+
+        Text multiPlayerText("Multiplayer", font, 50);
+        multiPlayerText.setPosition(450, 350);
         multiPlayerText.setFillColor(Color::White);
-        
+
         while (window.isOpen()) // Checks for user input until window is closed
         {
             // Process events
@@ -156,16 +159,16 @@ public:
                 if (event.type == Event::MouseButtonPressed)
                 {
                     // if mouse is over the single player button
-                    if (singlePlayerButton.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    if (single_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
                         cout << "Singleplayer" << "\n";
-						// START SINGLE PLAYER GAME - INSERT METHOD HERE
+                        game.runGame(window);
                     }
 
                     // Check if mouse is over the multiplayer button
-                    if (multiPlayerButton.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+                    if (multi_button.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
                     {
-                        cout << "Multiplayer" << "\n";
+                        cout << "Multiplayer--not yet implemented" << "\n";
                         // START MULTIPLAYER GAME (NOT IMPLEMENTED)
                     }
                 }
@@ -176,9 +179,9 @@ public:
                 }
             }
 
-            window.clear(sf::Color::Black);
-            window.draw(singlePlayerButton);
-            window.draw(multiPlayerButton);
+            window.clear(Color::Black);
+            window.draw(single_button);
+            window.draw(multi_button);
             window.draw(singlePlayerText);
             window.draw(multiPlayerText);
             window.display();
