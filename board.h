@@ -3,13 +3,11 @@
 #include "header.h"
 #include "player.h"
 
-#define player1 == 1;
-#define player2 == 2;
-#define empty == 0;
 
-class Board 
+class Board
 {
 public:
+
 	//tests if the move is legal, if legal procede with move
 	//virtual bool isLegal(int row, int col) = 0;
 
@@ -21,14 +19,13 @@ public:
 
 class TicTacBoard : public Board
 {
-	//3d array acts as board
-private:
-	//true = availible -- false = full
-	int board[3][3];
-
 public:
+	//true = availible -- false = full
+	int board[3][3] = { {0,0,0} , {0,0,0} , {0,0,0} };
 
-	/*bool isLegal(int row, int col)
+	
+
+	bool isLegal(int row, int col)
 	{
 		if (board[row][col] == 0)
 		{
@@ -38,7 +35,7 @@ public:
 		{
 			return false;
 		}
-	}*/
+	}
 
 	bool isGameOver()
 	{
@@ -151,8 +148,61 @@ public:
 		{
 			std::cout << "Failed to load image!" << std::endl;
 		}
+	
+		Sprite PlayerX1(X);
+		PlayerX1.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerX2(X);
+		PlayerX2.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerX3(X);
+		PlayerX3.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerX4(X);
+		PlayerX4.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerX5(X);
+		PlayerX5.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerX6(X);
+		PlayerX6.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerX7(X);
+		PlayerX7.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerX8(X);
+		PlayerX8.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerX9(X);
+		PlayerX9.setPosition(1500, 1500);//set it offscreen
+		
+		Texture O;
+		if (!O.loadFromFile("O.png"))
+		{
+			std::cout << "Failed to load image!" << std::endl;
+		}
 
-		Sprite PlayerX(X);
+		Sprite PlayerO1(O);
+		PlayerO1.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerO2(O);
+		PlayerO2.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerO3(O);
+		PlayerO3.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerO4(O);
+		PlayerO4.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerO5(O);
+		PlayerO5.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerO6(O);
+		PlayerO6.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerO7(O);
+		PlayerO7.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerO8(O);
+		PlayerO8.setPosition(1500, 1500);//set it offscreen
+		Sprite PlayerO9(O);
+		PlayerO9.setPosition(1500, 1500);//set it offscreen
+
+
+
+
+		humanPlayer player1;
+		computerPlayer player2;
+
+		int xcoord = 0;
+		int ycoord = 0;
+
+
 
 		while (window.isOpen())
 		{
@@ -170,12 +220,28 @@ public:
 					{
 						cout << "click registered top left" << "\n";
 
+						xcoord = 0;
+						ycoord = 0;
+
+						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
+						PlayerX1.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
+
+						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO1);
 					}
 
 					// Check if the mouse is over the top middle
 					if (topmid.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
 					{
 						cout << "click registered top mid" << "\n";
+
+						xcoord = 0;
+						ycoord = 1;
+
+						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
+						PlayerX2.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
+
+						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO2);
+
 
 					}
 
@@ -184,6 +250,13 @@ public:
 					{
 						cout << "click registered top right" << "\n";
 
+						xcoord = 0;
+						ycoord = 2;
+
+						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
+						PlayerX3.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
+
+						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO3);
 					}
 
 					///////////////////////////////////////mid////////////////////////////////////////////
@@ -193,6 +266,13 @@ public:
 					{
 						cout << "click registered mid left" << "\n";
 
+						xcoord = 1;
+						ycoord = 0;
+
+						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
+						PlayerX4.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
+
+						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO4);
 					}
 
 					// Check if the mouse is over the start button
@@ -200,6 +280,13 @@ public:
 					{
 						cout << "click registered mid middle" << "\n";
 
+						xcoord = 1;
+						ycoord = 1;
+
+						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
+						PlayerX5.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
+
+						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO5);
 					}
 
 					// Check if the mouse is over the start button
@@ -207,6 +294,14 @@ public:
 					{
 						cout << "click registered mid right" << "\n";
 
+
+						xcoord = 1;
+						ycoord = 2;
+
+						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
+						PlayerX6.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
+
+						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO6);
 					}
 
 					////////////////////////////////////////bot///////////////////////////////////////////
@@ -216,6 +311,13 @@ public:
 					{
 						cout << "click registered bottom left" << "\n";
 
+						xcoord = 2;
+						ycoord = 0;
+
+						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
+						PlayerX7.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
+
+						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO7);
 					}
 
 					// Check if the mouse is over the start button
@@ -223,6 +325,13 @@ public:
 					{
 						cout << "click registered bot middle" << "\n";
 
+						xcoord = 2;
+						ycoord = 1;
+
+						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
+						PlayerX8.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
+
+						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO8);
 					}
 
 					// Check if the mouse is over the start button
@@ -230,14 +339,23 @@ public:
 					{
 						cout << "click registered bottom right" << "\n";
 
+						xcoord = 2;
+						ycoord = 2;
+
+						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
+						PlayerX9.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
+
+						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO9);
 					}
 
 				}
+
 				else if (event.type == Event::Closed)
 				{
 					// Close the window
 					window.close();
 				}
+
 			}
 			window.clear(Color::Black);
 
@@ -254,6 +372,26 @@ public:
 			window.draw(botleft);
 			window.draw(botmid);
 			window.draw(botright);
+
+			window.draw(PlayerX1);
+			window.draw(PlayerX2);
+			window.draw(PlayerX3);
+			window.draw(PlayerX4);
+			window.draw(PlayerX5);
+			window.draw(PlayerX6);
+			window.draw(PlayerX7);
+			window.draw(PlayerX8);
+			window.draw(PlayerX9);
+
+			window.draw(PlayerO1);
+			window.draw(PlayerO2);
+			window.draw(PlayerO3);
+			window.draw(PlayerO4);
+			window.draw(PlayerO5);
+			window.draw(PlayerO6);
+			window.draw(PlayerO7);
+			window.draw(PlayerO8);
+			window.draw(PlayerO9);
 
 			window.display();
 		}
