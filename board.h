@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include "header.h"
@@ -8,8 +9,7 @@ class Board
 {
 public:
 
-	//tests if the move is legal, if legal procede with move
-	//virtual bool isLegal(int row, int col) = 0;
+
 
 	//tests if game is over
 	virtual bool isGameOver() = 0;
@@ -23,56 +23,47 @@ public:
 	//true = availible -- false = full
 	int board[3][3] = { {0,0,0} , {0,0,0} , {0,0,0} };
 
-	
-
-	bool isLegal(int row, int col)
-	{
-		if (board[row][col] == 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
 
 	bool isGameOver()
 	{
 		////////////////check vertical///////////////
-		if (board[1][1] == board[1][2] && board[1][3])
+		if (board[0][0] == board[0][1] && board[0][2] != 0)
 		{
 			return true;
 		}
-		else if (board[2][1] == board[2][2] && board[2][3])
+		else if (board[1][0] == board[1][1] && board[1][2] != 0)
 		{
 			return true;
 		}
-		else if (board[3][1] == board[3][2] && board[3][3])
-		{
-			return true;
-		}
-
-		////////////////check horizontal///////////////
-		else if (board[1][1] == board[2][1] && board[3][1])
-		{
-			return true;
-		}
-		else if (board[1][2] == board[2][2] && board[3][2])
-		{
-			return true;
-		}
-		else if (board[1][3] == board[2][2] && board[3][3])
+		else if (board[2][0] == board[2][1] && board[2][2] != 0)
 		{
 			return true;
 		}
 
 		////////////////check horizontal///////////////
-		else if (board[1][1] == board[2][2] && board[3][3])
+		else if (board[0][0] == board[1][0] && board[2][0] != 0)
 		{
 			return true;
 		}
-		else if (board[3][1] == board[2][2] && board[1][3])
+		else if (board[0][1] == board[1][1] && board[2][1] != 0)
+		{
+			return true;
+		}
+		else if (board[0][2] == board[1][1] && board[2][2] != 0)
+		{
+			return true;
+		}
+
+		////////////////check horizontal///////////////
+		else if (board[0][0] == board[1][0] && board[1][0] == board[2][0] && board[2][0] != 0)
+		{
+			return true;
+		}
+		else if (board[0][1] == board[1][1] && board[1][1] == board[2][1] && board[2][1] != 0)
+		{
+			return true;
+		}
+		else if (board[0][2] == board[1][2] && board[1][2] == board[2][2] && board[2][2] != 0)
 		{
 			return true;
 		}
@@ -210,152 +201,173 @@ public:
 			Event event;
 			while (window.pollEvent(event))
 			{
-				// Check for user input
-				if (event.type == Event::MouseButtonPressed)
+
+				while (isGameOver() == false)
 				{
 
-					///////////////////////////////////////top////////////////////////////////////////
-					// Check if the mouse is over the top left
-					if (topleft.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+					// Check for user input
+					if (event.type == Event::MouseButtonPressed)
 					{
-						cout << "click registered top left" << "\n";
 
-						xcoord = 0;
-						ycoord = 0;
+						///////////////////////////////////////top////////////////////////////////////////
+						// Check if the mouse is over the top left
+						if (topleft.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+						{
+							cout << "click registered top left" << "\n";
 
-						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
-						PlayerX1.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
+							int Eventx = event.mouseButton.x;
+							int Eventy = event.mouseButton.y;
 
-						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO1);
+							xcoord = 0;
+							ycoord = 0;
+
+							player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1, Eventx, Eventy);
+
+							player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO1, Eventx, Eventy);
+						}
+
+						// Check if the mouse is over the top middle
+						if (topmid.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+						{
+							cout << "click registered top mid" << "\n";
+
+							int Eventx = event.mouseButton.x;
+							int Eventy = event.mouseButton.y;
+
+							xcoord = 0;
+							ycoord = 1;
+
+							player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX2, Eventx, Eventy);
+
+							player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO2, Eventx, Eventy);
+
+
+						}
+
+						// Check if the mouse is over the top right
+						if (topright.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+						{
+							cout << "click registered top right" << "\n";
+
+							int Eventx = event.mouseButton.x;
+							int Eventy = event.mouseButton.y;
+
+							xcoord = 0;
+							ycoord = 2;
+
+							player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX3, Eventx, Eventy);
+
+							player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO3, Eventx, Eventy);
+						}
+
+						///////////////////////////////////////mid////////////////////////////////////////////
+
+						// Check if the mouse is over the start button
+						if (midleft.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+						{
+							cout << "click registered mid left" << "\n";
+
+							int Eventx = event.mouseButton.x;
+							int Eventy = event.mouseButton.y;
+
+							xcoord = 1;
+							ycoord = 0;
+
+							player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX4, Eventx, Eventy);
+
+							player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO4, Eventx, Eventy);
+						}
+
+						// Check if the mouse is over the start button
+						if (midmid.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+						{
+							cout << "click registered mid middle" << "\n";
+
+							int Eventx = event.mouseButton.x;
+							int Eventy = event.mouseButton.y;
+
+							xcoord = 1;
+							ycoord = 1;
+
+							player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX5, Eventx, Eventy);
+
+							player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO5, Eventx, Eventy);
+						}
+
+						// Check if the mouse is over the start button
+						if (midright.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+						{
+							cout << "click registered mid right" << "\n";
+
+							int Eventx = event.mouseButton.x;
+							int Eventy = event.mouseButton.y;
+
+							xcoord = 1;
+							ycoord = 2;
+
+							player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX6, Eventx, Eventy);
+
+							player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO6, Eventx, Eventy);
+						}
+
+						////////////////////////////////////////bot///////////////////////////////////////////
+
+
+						if (botleft.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+						{
+							cout << "click registered bottom left" << "\n";
+
+							int Eventx = event.mouseButton.x;
+							int Eventy = event.mouseButton.y;
+
+							xcoord = 2;
+							ycoord = 0;
+
+							player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX7, Eventx, Eventy);
+
+							player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO7, Eventx, Eventy);
+						}
+
+						// Check if the mouse is over the start button
+						if (botmid.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+						{
+							cout << "click registered bot middle" << "\n";
+
+							int Eventx = event.mouseButton.x;
+							int Eventy = event.mouseButton.y;
+
+							xcoord = 2;
+							ycoord = 1;
+
+							player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX8, Eventx, Eventy);
+
+							player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO8, Eventx, Eventy);
+						}
+
+						// Check if the mouse is over the start button
+						if (botright.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+						{
+							cout << "click registered bottom right" << "\n";
+
+							int Eventx = event.mouseButton.x;
+							int Eventy = event.mouseButton.y;
+
+							xcoord = 2;
+							ycoord = 2;
+
+							player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX9, Eventx, Eventy);
+
+							player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO9, Eventx, Eventy);
+						}
+
 					}
 
-					// Check if the mouse is over the top middle
-					if (topmid.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
+					else if (event.type == Event::Closed)
 					{
-						cout << "click registered top mid" << "\n";
-
-						xcoord = 0;
-						ycoord = 1;
-
-						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
-						PlayerX2.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
-
-						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO2);
-
-
+						// Close the window
+						window.close();
 					}
-
-					// Check if the mouse is over the top right
-					if (topright.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
-					{
-						cout << "click registered top right" << "\n";
-
-						xcoord = 0;
-						ycoord = 2;
-
-						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
-						PlayerX3.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
-
-						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO3);
-					}
-
-					///////////////////////////////////////mid////////////////////////////////////////////
-
-					// Check if the mouse is over the start button
-					if (midleft.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
-					{
-						cout << "click registered mid left" << "\n";
-
-						xcoord = 1;
-						ycoord = 0;
-
-						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
-						PlayerX4.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
-
-						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO4);
-					}
-
-					// Check if the mouse is over the start button
-					if (midmid.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
-					{
-						cout << "click registered mid middle" << "\n";
-
-						xcoord = 1;
-						ycoord = 1;
-
-						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
-						PlayerX5.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
-
-						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO5);
-					}
-
-					// Check if the mouse is over the start button
-					if (midright.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
-					{
-						cout << "click registered mid right" << "\n";
-
-
-						xcoord = 1;
-						ycoord = 2;
-
-						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
-						PlayerX6.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
-
-						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO6);
-					}
-
-					////////////////////////////////////////bot///////////////////////////////////////////
-
-
-					if (botleft.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
-					{
-						cout << "click registered bottom left" << "\n";
-
-						xcoord = 2;
-						ycoord = 0;
-
-						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
-						PlayerX7.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
-
-						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO7);
-					}
-
-					// Check if the mouse is over the start button
-					if (botmid.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
-					{
-						cout << "click registered bot middle" << "\n";
-
-						xcoord = 2;
-						ycoord = 1;
-
-						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
-						PlayerX8.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
-
-						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO8);
-					}
-
-					// Check if the mouse is over the start button
-					if (botright.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y)))
-					{
-						cout << "click registered bottom right" << "\n";
-
-						xcoord = 2;
-						ycoord = 2;
-
-						player1.makeMove(board, xcoord, ycoord, 1, window, PlayerX1);
-						PlayerX9.setPosition(event.mouseButton.x - 75, event.mouseButton.y - 75);
-
-						player2.makeMove(board, xcoord, ycoord, 2, window, PlayerO9);
-					}
-
 				}
-
-				else if (event.type == Event::Closed)
-				{
-					// Close the window
-					window.close();
-				}
-
 			}
 			window.clear(Color::Black);
 
