@@ -1,3 +1,4 @@
+
 #include "header.h"
 
 
@@ -37,7 +38,8 @@ public:
     }
 };
 
-class computerPlayer : public player {
+class computerPlayer : public player 
+{
 protected:
     // Add any protected member variables and functions here
 
@@ -98,5 +100,4 @@ public:
             std::cout << std::endl;
         }
     }
-};
 };
