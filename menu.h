@@ -16,7 +16,7 @@ public:
         Font font;
         if (!font.loadFromFile("ARIAL.ttf"))
         {
-            cout << "Failed to load image!" << endl;
+            cout << "Failed to load font!" << endl;
         }
 
         //buttons--split by button and text overlay
@@ -124,7 +124,7 @@ public:
 
         if (!font.loadFromFile("ARIAL.ttf"))
         {
-            cout << "Failed to load image!" << endl;
+            cout << "Failed to load font!" << endl;
         }
 
         // Single Player Button

@@ -17,6 +17,14 @@ protected:
 public:
     void makeMove(int(&board)[3][3], int x, int y, int player, RenderWindow& window, Sprite& sprite) override
     {
+        // Check if move is valid
+        
+        if (board[x][y] != 0 || x < 0 || x >= 3 || y < 0 || y >= 3) 
+        {
+            // Invalid move, do nothing
+            return;
+        }
+
         board[x][y] = player;
 
         for (int i = 0; i < 3; i++) {
@@ -38,9 +46,14 @@ public:
     {
         srand(time(0));
 
-        // Generate a random row and column
-        x = rand() % 3;
-        y = rand() % 3;
+        // Check if move is valid
+        do
+        {
+            // Generate a random row and column
+            x = rand() % 3;
+            y = rand() % 3;
+        } while (board[x][y] != 0); // Repeat until a valid move is found
+
 
         // Place the number on the grid
         board[x][y] = player;
